@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebAssembly Contoh</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        .result-container {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            text-align: center;
+        }
+
+        .result-container p {
+            font-size: 18px;
+            color: #555;
+        }
+
+        .result-container span {
+            font-weight: bold;
+            font-size: 22px;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h1>WebAssembly dengan Emscripten</h1>
+        <p>Hasil dari penjumlahan(5, 10): <span id="result">Loading...</span></p>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        
+        Module.onRuntimeInitialized = function() {
+            console.log('WebAssembly Contoh');
+            console.log('Modul:', Module);
+
+            
+            try {
+                var result = Module._add(5, 10);
+                console.log('Hasil dari penjumlahan(5, 10):', result);
+
+                // Tampilkan hasil di halaman
+                document.getElementById('result').innerText = result;
+            } catch (e) {
+                console.error("Error calling _add:", e);
+            }
+        };
+
+        
+        Module.onAbort = function(errorMessage) {
+            console.error("WebAssembly gagal:", errorMessage);
+        };
+    </script>
+</body>
+</html>
